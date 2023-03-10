@@ -31,6 +31,12 @@ def get_board():
     import enviro.boards.urban as board
   return board
   
+def get_battery_sensor():
+  if 11 in i2c_devices:  # LC709203F detected
+    import additional_sensors.battery_sensor as battery_sensor
+    return battery_sensor
+  return None
+
 # set up the activity led
 # ===========================================================================
 from machine import PWM, Timer
@@ -343,6 +349,11 @@ def get_sensor_readings():
   readings = get_board().get_sensor_readings(seconds_since_last, vbus_present)
   # readings["voltage"] = 0.0 # battery_voltage #Temporarily removed until issue is fixed
 
+  battery_sensor = get_battery_sensor()
+  if battery_sensor:
+    readings["battery_percentage"] = battery_sensor.percentage()
+    readings["battery_voltage"] = battery_sensor.voltage()
+
   # write out the last time log
   with open("last_time.txt", "w") as timefile:
     timefile.write(now_str)  
@@ -472,6 +483,9 @@ def startup():
     if not continue_startup and not rtc.read_alarm_flag():
       logging.debug("  - wake reason: trigger")
       sleep()
+
+  # ensures battery sensor is initialised
+  get_battery_sensor()
 
   # log the wake reason
   logging.info("  - wake reason:", wake_reason_name(reason))
