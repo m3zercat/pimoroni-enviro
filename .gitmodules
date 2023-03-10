@@ -1,3 +1,6 @@
 [submodule "phew"]
 	path = phew
 	url = https://github.com/pimoroni/phew
+[submodule "MicroPython_LC709203F"]
+	path = MicroPython_LC709203F
+	url = https://github.com/chris-reichl/MicroPython_LC709203F
