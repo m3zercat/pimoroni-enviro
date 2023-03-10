@@ -6,11 +6,9 @@ lc709203f = LC709203F(i2c)
 lc709203f.init_RSOC()  # sensor must be initialised
 
 
-@property
-def voltage():
+def get_voltage():
     return lc709203f.cell_voltage
 
 
-@property
-def percentage():
+def get_percentage():
     return lc709203f.cell_percent

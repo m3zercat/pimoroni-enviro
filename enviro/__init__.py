@@ -351,8 +351,8 @@ def get_sensor_readings():
 
   battery_sensor = get_battery_sensor()
   if battery_sensor:
-    readings["battery_percentage"] = battery_sensor.percentage()
-    readings["battery_voltage"] = battery_sensor.voltage()
+    readings["battery_percentage"] = battery_sensor.get_percentage()
+    readings["battery_voltage"] = battery_sensor.get_voltage()
 
   # write out the last time log
   with open("last_time.txt", "w") as timefile:
